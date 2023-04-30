@@ -10,9 +10,11 @@ def home(request):
     if request.method == 'POST':
         current_word = request.POST.get('current_word', '')
         print("Entered word is: ", current_word)
-        if is_valid_word(current_word) and is_fancy_word(current_word):
-            message = "valid and fancy"
-        
+        if is_valid_word(current_word):
+            if is_fancy_word(current_word):
+                message = "valid and fancy"
+            else:
+                message = "valid but not fancy"
         else:
             message = "invalid"
         return render(request, 'home.html', {'current_word':current_word, 'message':message})

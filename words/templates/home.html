@@ -11,6 +11,7 @@
 <form method="post">
     {% csrf_token %}
     <input type="text" id="current_word" name="current_word" value="{{ current_word }}">
+    <p>{{computer_word}}</p>
     <!-- <input type="hidden" name="current_player" value="{{ current_player }}"> -->
     <input type="submit" value="Submit">
 </form>

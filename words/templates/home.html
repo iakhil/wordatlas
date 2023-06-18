@@ -1,17 +1,29 @@
 
 
 
-<h1>Welcome to fancy word atlas</h1>
+<h1 style="text-align: center">Welcome to Fancy Word Atlas</h1>
 {% if current_word %}
     <p>Current word: {{ current_word }}</p>
 {% endif %}
-{% if message %}
-    <p>{{ message }}</p>
-{% endif %}
+
 <form method="post">
     {% csrf_token %}
     <input type="text" id="current_word" name="current_word" value="{{ current_word }}">
-    <p>{{computer_word}}</p>
+    <p><b>Computer Word:</b>  {{computer_word}}</p>
+    <p><b>Word should be starting with:</b> {{ending_letter}} </p>
+    <p><b>Message:</b> {{message}} </p> 
+    <p style="border-left: 25px;"><b>Score: </b> {{score}} </p>
+    <p>All computer words: {{all_comp_words}}</p>
     <!-- <input type="hidden" name="current_player" value="{{ current_player }}"> -->
     <input type="submit" value="Submit">
 </form>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var textBox = document.getElementById('current_word');
+        var cursorPosition = textBox.value.length;
+        textBox.focus();
+        textBox.setSelectionRange(cursorPosition, cursorPosition);
+    });
+</script>

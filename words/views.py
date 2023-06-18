@@ -2,57 +2,48 @@ from django.shortcuts import render
 from django.http import JsonResponse
 import os 
 from .models import Word
-from . word_utils import is_valid_word, is_fancy_word, comp_response
+from . word_utils import is_valid_word, is_fancy_word, comp_response, comp_response_up
 # Create your views here.
-
+all_comp_words = [] 
 def home(request):
 
+    score = request.session.get('score', 0)
     if request.method == 'POST':
-        computer_word = "waiting..."
         current_word = request.POST.get('current_word', '')
+        ending_letter_user = current_word[-1]
+        #computer_word = all_comp_words[-2] if len(all_comp_words) > 1 else all_comp_words[-1]
+        # all_comp_words.append(comp_response())
+        # computer_word = all_comp_words[-2]
+        # ending_letter_comp = computer_word[-1]
+        message = "default messsage"
         print("Entered word is: ", current_word)
         if is_valid_word(current_word):
-            computer_word = comp_response()
+            if len(all_comp_words) > 0:
+                ending_letter_comp = all_comp_words[-1][-1]
+                if current_word[0] != ending_letter_comp:
+                    message = f"Word should begin with the letter: {ending_letter_comp}"
+
             if is_fancy_word(current_word):
-                message = "valid and fancy"
+                message = "Valid and fancy"
+                score += 1
             else:
-                message = "valid but not fancy"
+                message = "Valid but not fancy"
         else:
             message = "invalid"
-        return render(request, 'home.html', {'current_word':current_word, 'computer_word':computer_word,'message':message})
+
+        computer_word = comp_response_up(ending_letter_user)
+        ending_letter_comp = computer_word[-1]
+        all_comp_words.append(computer_word) 
+
+        request.session['score'] = score
+        return render(request, 'home.html', {'score': score, 'ending_letter':ending_letter_comp, 'computer_word':computer_word,'message':message, 'all_comp_words':all_comp_words})
 
     else:
-        current_word = "undetected"
-        message = "waiting"
-    # if request.method == 'POST':
-    #     current_word = request.POST['current_word']
-    #     current_player = request.POST['current_player']
-    #     next_word = request.POST['next_word']
-    #     if is_valid_word(current_word):
-    #         if is_fancy_word(current_word):
-    #             # word = Word(word=next_word, player=current_player)
-    #             # word.save()
-
-    #             current_word = next_word
-    #             message = "You scored a point!"
-
-    #         else:
-    #             message = "Invalid word!"
-    # else:
-    #     message = "Invalid word!"
-    #     current_word = ''
-    #     message = "Welcome to the game!"
-
-    # try:
-    # #     previous_word = Word.objects.latest('timestamp')
-    #     # previous_player = previous_word.player
-    #     cuurent_word = ''
-    #     message = "Let's go!"
-    # except Word.DoesNotExist:
-    #     previous_word = ''
-    #     previous_player = ''
-
-    return render(request, 'home.html', {'current_word':current_word, 'message':message})
-
+        request.session['score'] = 0
+        message = "Welcome to the game!"
+        # ending_letter = all_comp_words[-1][-1]
+        # computer_word = all_comp_words[-1]
+        message = "Enter your first word!"
+        return render(request, 'home.html', {'score': score, 'ending_letter':"NA", 'computer_word':"NA",'message':message, 'all_comp_words':all_comp_words})
 
     

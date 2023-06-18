@@ -29,3 +29,17 @@ def comp_response():
     ind = random.randint(0, len(fancy_words))
 
     return fancy_words[ind]
+
+fancy_words = list(set(all_words) - set(common_words))
+fancy_words.sort()
+
+def comp_response_up(first_letter):
+
+    all_valid_words = [word for word in fancy_words if word.startswith(first_letter)]
+    ind = random.randint(0, len(all_valid_words))
+    comp_word = all_valid_words[ind] 
+    fancy_words.remove(comp_word)
+
+    return comp_word
+
+

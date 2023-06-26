@@ -1,10 +1,23 @@
 from django.shortcuts import render
 from django.http import JsonResponse
 import os 
+import json 
+import requests 
 from .models import Word
 from . word_utils import is_valid_word, is_fancy_word, comp_response, comp_response_up
 # Create your views here.
 all_comp_words = [] 
+
+def get_meaning(word):
+
+    req = 'https://api.dictionaryapi.dev/api/v2/entries/en/' + word
+    data = json.loads(requests.get(req).text)
+    if len(data) == 1:
+        meaning = data[0]['meanings'][0]['definitions'][0]['definition']
+    else:
+        meaning = "Definition not available."
+    return meaning
+
 def home(request):
 
     score = request.session.get('score', 0)
@@ -28,15 +41,20 @@ def home(request):
                 score += 1
             else:
                 message = "Valid but not fancy"
+                request.session['score'] = 0
+                score = 0
         else:
             message = "invalid"
+            score = 0
+            request.session['score'] = 0
 
         computer_word = comp_response_up(ending_letter_user)
+        comp_word_meaning = get_meaning(computer_word)
         ending_letter_comp = computer_word[-1]
         all_comp_words.append(computer_word) 
 
         request.session['score'] = score
-        return render(request, 'home.html', {'score': score, 'ending_letter':ending_letter_comp, 'computer_word':computer_word,'message':message, 'all_comp_words':all_comp_words})
+        return render(request, 'home.html', {'score': score, 'comp_word_meaning': comp_word_meaning, 'ending_letter':ending_letter_comp, 'computer_word':computer_word,'message':message, 'all_comp_words':all_comp_words})
 
     else:
         request.session['score'] = 0

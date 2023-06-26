@@ -1,15 +1,41 @@
-
-
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
 <h1 style="text-align: center">Welcome to Fancy Word Atlas</h1>
 {% if current_word %}
     <p>Current word: {{ current_word }}</p>
 {% endif %}
 
+<style>
+    .hoverable {
+        border: 1px solid black;
+        padding: 10px;
+    }
+    .hoverable-text {
+        display: none;
+    }
+
+    .hoverable:hover .hoverable-text {
+        display: block;
+    }
+
+</style>
+
 <form method="post">
     {% csrf_token %}
-    <input type="text" id="current_word" name="current_word" value="{{ current_word }}">
+    <input  type="text" id="current_word" name="current_word" value="{{ current_word }}">
     <p><b>Computer Word:</b>  {{computer_word}}</p>
+    <div class="hoverable">
+        <span class="hoverable-text">{{comp_word_meaning}}</span>
+    </div>
+    
     <p><b>Word should be starting with:</b> {{ending_letter}} </p>
     <p><b>Message:</b> {{message}} </p> 
     <p style="border-left: 25px;"><b>Score: </b> {{score}} </p>
@@ -26,4 +52,6 @@
         textBox.focus();
         textBox.setSelectionRange(cursorPosition, cursorPosition);
     });
-</script>
+</script>    
+</body>
+</html>

@@ -3,48 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <script src="https://cdn.tailwindcss.com"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Word Atlas</title>
 </head>
-<body>
+
+<body class="bg-blue-500 bg-opacity-50">
     
-<h1 style="text-align: center">Welcome to Fancy Word Atlas</h1>
+<h1 style="text-align: center" class="text-4xl font-bold text-gray-800 mb-8">Welcome to Fancy Word Atlas</h1>
 {% if current_word %}
     <p>Current word: {{ current_word }}</p>
 {% endif %}
 
 <style>
+
     .hoverable {
         border: 1px solid black;
-        padding: 10px;
     }
     .hoverable-text {
         display: none;
     }
 
+    .hoverable:hover .reveal-text {
+        opacity: 0;
+     
+    }
+
+
     .hoverable:hover .hoverable-text {
         display: block;
     }
 
+
 </style>
 
+
+<div class="flex justify-center" id="parent-div">
 <form method="post">
     {% csrf_token %}
+
+    <br>
     <input  type="text" id="current_word" name="current_word" value="{{ current_word }}">
+    <br> <br>
     <p><b>Computer Word:</b>  {{computer_word}}</p>
+    <br> <br>
     <div class="hoverable">
+        <span class="flex justify-center items-center reveal-text">Know meaning</span>
         <span class="hoverable-text">{{comp_word_meaning}}</span>
     </div>
-    
+    <br> <br>
     <p><b>Word should be starting with:</b> {{ending_letter}} </p>
+    <br> <br>
     <p><b>Message:</b> {{message}} </p> 
-    <p style="border-left: 25px;"><b>Score: </b> {{score}} </p>
+    <br> <br>
+    <p class="score"><b>Score: </b> {{score}} </p>
+    <br><br>
     <p>All computer words: {{all_comp_words}}</p>
     <!-- <input type="hidden" name="current_player" value="{{ current_player }}"> -->
-    <input type="submit" value="Submit">
+    <input type="submit" value="Submit" class="bg-black-500 text-white">
 </form>
 
-
+</div>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         var textBox = document.getElementById('current_word');

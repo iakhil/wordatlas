@@ -41,5 +41,3 @@ def comp_response_up(first_letter):
     fancy_words.remove(comp_word)
 
     return comp_word
-
-

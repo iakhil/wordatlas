@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import JsonResponse
 import os 
 import json 
+import re
 import requests 
 from .models import Word
 from . word_utils import is_valid_word, is_fancy_word, comp_response, comp_response_up
@@ -32,7 +33,7 @@ def home(request):
     if request.method == 'POST':
         try:
             current_word = request.POST.get('current_word', '')
-
+            current_word = re.sub(r"\s+", "", current_word)
             if len(current_word) > 0:
                 ending_letter_user = current_word[-1]
 
@@ -64,8 +65,7 @@ def home(request):
                 all_comp_words.append(computer_word) 
 
             else:
-                print("0 length word.")
-                message = "invalid"
+                message = "Input is blank."
                 score = 0
                 request.session['score'] = 0
                 ending_letter_user = "NA"

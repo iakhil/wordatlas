@@ -34,6 +34,87 @@
         display: block;
     }
 
+    .score {
+        font-size: 40px;
+        position: absolute;
+        top: 100px;
+        left: 200px;
+    }
+
+    #current_word {
+        height: 40px;
+        width: 260px;
+        font-size: 30px;
+        position: absolute;
+        top: 55%;
+        left: 50%;
+        transform: translate(-50%, 50%);
+    }
+    .message {
+        font-size: 24px;
+        position: absolute;
+        top: 70%;
+        left: 50%;
+        transform: translate(-50%, 50%);
+    }
+
+    .ending-letter {
+        font-size: 30px;
+        position: absolute;
+        top: 40%;
+        left: 50%;
+        transform: translate(-50%, 50%);
+    }
+
+    .computer-word {
+        font-size: 30px;
+        position: absolute;
+        top: 30%;
+        left: 50%;
+        transform: translate(-50%, 50%);
+    }
+
+    /* Style the dropdown button */
+.dropbtn {
+  position: absolute;
+  top: 10%;
+  left: 90%;
+  padding: 16px;
+  font-size: 26px;
+  border: none;
+  cursor: pointer;
+}
+
+/* Style the dropdown content (hidden by default) */
+.dropdown-content {
+    font-size: 20px;
+  display: none;
+  position: absolute;
+  top: 18%;
+  left: 80%;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  z-index: 1;
+}
+
+/* Style the links inside the dropdown */
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {
+  background-color: #ddd;
+}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
 
 </style>
 
@@ -43,27 +124,37 @@
     {% csrf_token %}
 
     <br>
+    
+    <p class="computer-word"><b>Computer Word:</b>  {{computer_word}}</p>
+    <br>
     <input  type="text" id="current_word" name="current_word" value="{{ current_word }}">
     <br> <br>
-    <p><b>Computer Word:</b>  {{computer_word}}</p>
-    <br> <br>
     <div class="hoverable">
-        <span class="flex justify-center items-center reveal-text">Know meaning</span>
+        <span class="flex justify-center items-center reveal-text" id="know-meaning">Know meaning</span>
         <span class="hoverable-text">{{comp_word_meaning}}</span>
     </div>
     <br> <br>
-    <p><b>Word should be starting with:</b> {{ending_letter}} </p>
-    <br> <br>
-    <p><b>Message:</b> {{message}} </p> 
-    <br> <br>
-    <p class="score"><b>Score: </b> {{score}} </p>
+    <p class="ending-letter"><b>Enter a word that starts with the letter:</b> {{ending_letter}} </p>
+    <br> <br> 
     <br><br>
-    <p>All computer words: {{all_comp_words}}</p>
+    <!-- <p>All computer words: {{all_comp_words}}</p>
     <!-- <input type="hidden" name="current_player" value="{{ current_player }}"> -->
-    <input type="submit" value="Submit" class="bg-black-500 text-white">
 </form>
 
 </div>
+<p class="message"><b>Your entered word was:</b>  {{message}} </p>
+<p class="score"><b>Score </b> <br> {{score}} </p>
+
+<div class="dropdown">
+    <button class="dropbtn">Rules</button>
+    <div class="dropdown-content">
+      <a href="#">A word is said to be 'fancy' if it is not in the list of the most common 10,000 words used in the English language.</a>
+      <a href="#">Computer would generate a fancy word.</a>
+      <a href="#">You have to come up with a fancy word that starts with the last letter of the computer word.</a>
+    </div>
+  </div>
+
+
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         var textBox = document.getElementById('current_word');

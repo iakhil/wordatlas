@@ -13,4 +13,4 @@
 
 ### Demo:
 
-! [] (https://github.com/iakhil/wordatlas/blob/master/word_atlast_demo.gif)
+![] (https://github.com/iakhil/wordatlas/blob/master/word_atlast_demo.gif)

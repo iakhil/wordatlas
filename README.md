@@ -1,7 +1,7 @@
-# wordatlas
+#Fancy Word Atlas
 ## Fancy Word Atlas is a word game to improve one's vocabulary.
 
-###Rules
+### Rules
 
 1. A word is said to be 'fancy' if it is not in the list of the most common 10,000 words used in the English language.
 2. Computer would generate a fancy word.

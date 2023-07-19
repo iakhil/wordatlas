@@ -9,4 +9,4 @@
 4. The score represents the streak of valid and fancy words.
 5. Any time an invalid or a word that is not *fancy* is entered, the score is set to 0.
 ### How to Run?
-#### Clone the repoo and run `python manage.py runserver`. 
+#### Clone the repoo and run the command `python manage.py runserver`. 

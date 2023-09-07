@@ -91,4 +91,6 @@ def home(request):
         message = "Enter your first word!"
         return render(request, 'home.html', {'score': score, 'ending_letter':"NA", 'computer_word':"NA",'message':message, 'all_comp_words':[]})
 
-    
+def game_over(request):
+
+    return render(request, 'game_over.html')

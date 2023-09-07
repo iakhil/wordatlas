@@ -34,12 +34,14 @@
         display: block;
     }
 
+    @media screen and (min-width: 600px) {
     .score {
         font-size: 40px;
         position: absolute;
         top: 100px;
         left: 200px;
     }
+}
 
     #current_word {
         height: 40px;
@@ -50,6 +52,9 @@
         left: 50%;
         transform: translate(-50%, 50%);
     }
+
+    
+@media screen and (min-width: 600px) {
     .message {
         font-size: 24px;
         position: absolute;
@@ -57,7 +62,7 @@
         left: 50%;
         transform: translate(-50%, 50%);
     }
-
+}
     .ending-letter {
         font-size: 30px;
         position: absolute;
@@ -86,6 +91,8 @@
 }
 
 /* Style the dropdown content (hidden by default) */
+
+@media screen and (min-width: 600px) {
 .dropdown-content {
     font-size: 20px;
   display: none;
@@ -95,6 +102,7 @@
   background-color: #f1f1f1;
   min-width: 160px;
   z-index: 1;
+}
 }
 
 /* Style the links inside the dropdown */
@@ -144,6 +152,21 @@
 </div>
 <p class="message"><b>Your entered word was:</b>  {{message}} </p>
 <p class="score"><b>Score </b> <br> {{score}} </p>
+
+<p><b>Timer</b></p>
+<span id="timer">30</span> seconds left. 
+<script>
+    let timeLeft = 30;
+    const timerElement = document.getElementById("timer");
+    const timerInterval = setInterval(() => {
+        timerElement.textContent = timeLeft;
+        timeLeft -= 1;
+
+        if (timeLeft < 0) 
+            clearInterval(timerInterval);
+    }, 1000)
+</script>
+
 
 <div class="dropdown">
     <button class="dropbtn">Rules</button>

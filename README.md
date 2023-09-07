@@ -1,4 +1,4 @@
-#Fancy Word Atlas
+# Fancy Word Atlas
 ## Fancy Word Atlas is a word game to improve one's vocabulary.
 
 ### Rules
@@ -10,3 +10,7 @@
 5. Any time an invalid or a word that is not *fancy* is entered, the score is set to 0.
 ### How to Run?
 #### Clone the repoo and run the command `python manage.py runserver`. 
+
+### Demo:
+
+![Demo of the game](https://github.com/iakhil/wordatlas/blob/master/word_atlast_demo.gif)

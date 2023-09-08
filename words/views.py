@@ -5,7 +5,7 @@ import json
 import re
 import requests 
 from .models import Word
-from . word_utils import is_valid_word, is_fancy_word, comp_response, comp_response_up
+from . word_utils import is_valid_word, is_fancy_word, is_repeated, comp_response_up
 # Create your views here.
 all_comp_words = [] 
 
@@ -47,8 +47,12 @@ def home(request):
                             right_word = False
 
                     if is_fancy_word(current_word) and right_word:
-                        message = "Valid and fancy"
-                        score += 1
+                        
+                        if is_repeated(current_word):
+                            message = f"{current_word} has already been used."
+                        else:
+                            message = "Valid and fancy"
+                            score += 1
                     else:
                         message = "Valid but not fancy"
                         request.session['score'] = 0

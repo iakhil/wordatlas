@@ -4,7 +4,7 @@ import random
 parent_dir = os.path.dirname(os.path.abspath(__file__))
 enable_path = os.path.join(parent_dir, 'data', 'enable.txt')
 common_word_path = os.path.join(parent_dir, 'data', 'common_words.txt')
-
+visited_words = set()
 with open(enable_path, 'r') as f:
     all_words = set(line.strip() for line in f)
 
@@ -27,7 +27,7 @@ def comp_response():
 
     fancy_words = list(set(all_words) - set(common_words))
     ind = random.randint(0, len(fancy_words)-1)
-
+    visited_words.add(fancy_words[ind])
     return fancy_words[ind]
 
 fancy_words = list(set(all_words) - set(common_words))
@@ -39,5 +39,8 @@ def comp_response_up(first_letter):
     ind = random.randint(0, len(all_valid_words)-1)
     comp_word = all_valid_words[ind] 
     fancy_words.remove(comp_word)
-
+    visited_words.add(comp_word)
     return comp_word
+
+def is_repeated(word):
+    return word in visited_words

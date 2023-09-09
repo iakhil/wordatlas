@@ -28,7 +28,8 @@ def home(request):
     score = request.session.get('score', 0)
 
     if request.META.get('HTTP_CACHE_CONTROL') == 'max-age=0':
-        all_comp_words = []
+        #all_comp_words = []
+        pass
 
     if request.method == 'POST':
         try:
@@ -39,9 +40,13 @@ def home(request):
 
                 message = "default messsage"
                 print("Entered word is: ", current_word)
+                print(is_valid_word(current_word))
                 if is_valid_word(current_word):
+                    print(len(all_comp_words))
                     if len(all_comp_words) > 0:
+                        print("Entered")
                         ending_letter_comp = all_comp_words[-1][-1]
+                        print(f"Last computer word: {all_comp_words[-1]}")
                         if current_word[0] != ending_letter_comp:
                             message = f"Word should begin with the letter: {ending_letter_comp}"
                             right_word = False
@@ -54,7 +59,8 @@ def home(request):
                             message = "Valid and fancy"
                             score += 1
                     else:
-                        message = "Valid but not fancy"
+                        if right_word:
+                            message = "Valid but not fancy"
                         request.session['score'] = 0
                         score = 0
 

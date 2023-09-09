@@ -42,5 +42,3 @@ def comp_response_up(first_letter):
     visited_words.add(comp_word)
     return comp_word
 
-def is_repeated(word):
-    return word in visited_words

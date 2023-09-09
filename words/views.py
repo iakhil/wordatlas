@@ -5,9 +5,10 @@ import json
 import re
 import requests 
 from .models import Word
-from . word_utils import is_valid_word, is_fancy_word, is_repeated, comp_response_up
+from . word_utils import is_valid_word, is_fancy_word, comp_response_up
 # Create your views here.
 all_comp_words = [] 
+visited_words = set()
 
 def get_meaning(word):
 
@@ -52,17 +53,19 @@ def home(request):
                             right_word = False
 
                     if is_fancy_word(current_word) and right_word:
-                        
-                        if is_repeated(current_word):
+                        if current_word in visited_words:
+                            print("Repeated")
                             message = f"{current_word} has already been used."
                         else:
                             message = "Valid and fancy"
                             score += 1
+                            visited_words.add(current_word)
                     else:
                         if right_word:
                             message = "Valid but not fancy"
                         request.session['score'] = 0
                         score = 0
+                        visited_words.add(current_word)
 
                 else:
                     message = "invalid"

@@ -124,8 +124,8 @@ class HomeView(View):
         if is_valid_word(current_word):
             if len(all_comp_words) > 0:
                 ending_letter_comp = all_comp_words[-1][-1]
-            
-                if current_word[0] != ending_letter_comp:
+                print(current_word, all_comp_words[-1])
+                if current_word[0] != ending_letter_comp and visited_words:
                     message = f"Word should begin with the letter: {ending_letter_comp}"
                     right_word = False
                     score = 0

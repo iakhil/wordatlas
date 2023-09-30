@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Word Atlas</title>
 </head>
@@ -124,6 +126,21 @@
 }
 
 
+.bookmark-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 5px;
+}
+
+.bookmark-button i {
+  margin-right: 5px;
+}
+
+
 </style>
 
 
@@ -152,6 +169,11 @@
 </div>
 <p class="message"><b>Your entered word was:</b>  {{message}} </p>
 <p class="score"><b>Score </b> <br> {{score}} </p>
+<button class="bookmark-button">
+    <i class="fas fa-bookmark"></i> Bookmark
+  </button>
+  
+
 
 <p><b>Timer</b></p>
 <span id="timer">30</span> seconds left. 

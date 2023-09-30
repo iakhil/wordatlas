@@ -136,10 +136,19 @@
   border-radius: 5px;
 }
 
-.bookmark-button i {
-  margin-right: 5px;
+.bookmark-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 5px;
 }
 
+.bookmark-button.bookmarked {
+  background-color: #e44d26;
+}
 
 </style>
 
@@ -169,7 +178,7 @@
 </div>
 <p class="message"><b>Your entered word was:</b>  {{message}} </p>
 <p class="score"><b>Score </b> <br> {{score}} </p>
-<button class="bookmark-button">
+<button id="bookmark-button" class="bookmark-button">
     <i class="fas fa-bookmark"></i> Bookmark
   </button>
   
@@ -212,6 +221,20 @@
         textBox.focus();
         textBox.setSelectionRange(cursorPosition, cursorPosition);
     });
+
+
+    document.addEventListener("DOMContentLoaded", function() {
+  const bookmarkButton = document.getElementById("bookmark-button");
+
+  bookmarkButton.addEventListener("click", function() {
+    if (bookmarkButton.classList.contains("bookmarked")) {
+      bookmarkButton.classList.remove("bookmarked");
+    } else {
+      bookmarkButton.classList.add("bookmarked");
+    }
+    });
+    });
+
 </script>    
 </body>
 </html>

@@ -6,6 +6,7 @@ import re
 import requests 
 from .models import Word
 from . word_utils import is_valid_word, is_fancy_word, comp_response_up
+from django.contrib.auth.mixins import LoginRequiredMixin
 # Create your views here.
 
 # class HomeView(View):
@@ -247,8 +248,8 @@ class HomeView(View):
         #     computer_word = "NA"
 
 
-        request.session['score'] = score
-        return render(request, 'home.html', {'score': score, 'comp_word_meaning': comp_word_meaning, 'ending_letter':ending_letter_comp, 'computer_word':computer_word,'message':message, 'all_comp_words':all_comp_words})
+        # request.session['score'] = score
+        # return render(request, 'home.html', {'score': score, 'comp_word_meaning': comp_word_meaning, 'ending_letter':ending_letter_comp, 'computer_word':computer_word,'message':message, 'all_comp_words':all_comp_words})
 
         
     # else:

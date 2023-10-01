@@ -6,9 +6,11 @@ import re
 import requests 
 from .models import Word
 from . word_utils import is_valid_word, is_fancy_word, comp_response_up
+from django.urls import reverse_lazy 
+from .forms import RegisterForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, FormView
 
 
 class LoginView(LoginView):
@@ -18,11 +20,19 @@ class MyAuthenticatedView(LoginRequiredMixin, TemplateView):
     template_name = 'authenticated_template.html'
 
 
-class RegisterView(View):
+class RegisterView(FormView):
+    form_class = RegisterForm
+    template_name = 'registration/register.html'
+    success_url = reverse_lazy('login')
+    
+    def form_valid(self, form):
+        return super().form_valid(form)
 
-    def get(self, request):
-        template_name = 'registration/register.html'
-        return render(request, template_name)
+    def form_invalid(self, form):
+
+        return super().form_invalid(form)
+
+
 
 class HomeView(View):
 

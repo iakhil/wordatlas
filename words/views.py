@@ -8,13 +8,21 @@ from .models import Word
 from . word_utils import is_valid_word, is_fancy_word, comp_response_up
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
+from django.views.generic import TemplateView
 
-class MyLoginView(LoginView):
+
+class LoginView(LoginView):
     template_name = 'login.html'
 
 class MyAuthenticatedView(LoginRequiredMixin, TemplateView):
     template_name = 'authenticated_template.html'
 
+
+class RegisterView(View):
+
+    def get(self, request):
+        template_name = 'registration/register.html'
+        return render(request, template_name)
 
 class HomeView(View):
 
@@ -28,7 +36,6 @@ class HomeView(View):
         else:
             meaning = "Definition not available."
         return meaning
-
 
     def process_word(self, current_word):
         return re.sub(r"\s+", "", current_word)

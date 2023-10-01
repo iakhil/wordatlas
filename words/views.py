@@ -123,34 +123,31 @@ class HomeView(View):
         right_word = True 
         ending_letter_user = current_word[-1]
         if is_valid_word(current_word):
-            if len(all_comp_words) > 0:
-                ending_letter_comp = all_comp_words[-1][-1]
-                print(current_word, all_comp_words[-1])
-                if current_word[0] != ending_letter_comp and visited_words:
-                    message = f"Word should begin with the letter: {ending_letter_comp}"
-                    right_word = False
+            
+            ending_letter_comp = all_comp_words[-1][-1]
+            print(current_word, all_comp_words[-1])
+            if current_word[0] != ending_letter_comp and visited_words:
+                message = f"Word should begin with the letter: {ending_letter_comp}"
+                right_word = False
+                score = 0
+
+            if is_fancy_word(current_word) and right_word:
+                if current_word in visited_words:
+                    message = f"{current_word} has already been used."
                     score = 0
-
-                if is_fancy_word(current_word) and right_word:
-                    if current_word in visited_words:
-                        message = f"{current_word} has already been used."
-                        score = 0
-
-                    else:
-                        message = "Valid and fancy."
-                        score += 1
-                        visited_words.append(current_word)
 
                 else:
-
-                    if right_word:
-                        message = "Valid but not fancy."
-                    
-                    score = 0
+                    message = "Valid and fancy."
+                    score += 1
                     visited_words.append(current_word)
+
             else:
-                message = "NA"
+
+                if right_word:
+                    message = "Valid but not fancy."
+                
                 score = 0
+                visited_words.append(current_word)
         else:
             message = "Invalid word."
             score = 0

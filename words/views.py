@@ -26,6 +26,7 @@ class RegisterView(FormView):
     success_url = reverse_lazy('login')
     
     def form_valid(self, form):
+        form.save()
         return super().form_valid(form)
 
     def form_invalid(self, form):
@@ -59,9 +60,10 @@ class HomeView(View):
         right_word = True 
         ending_letter_user = current_word[-1]
         if is_valid_word(current_word):
-            
-            ending_letter_comp = all_comp_words[-1][-1]
-            print(current_word, all_comp_words[-1])
+            if all_comp_words:
+                ending_letter_comp = all_comp_words[-1][-1]
+            else:
+                ending_letter_comp = "NA"
             if current_word[0] != ending_letter_comp and visited_words:
                 message = f"Word should begin with the letter: {ending_letter_comp}"
                 right_word = False

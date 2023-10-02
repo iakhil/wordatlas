@@ -35,7 +35,7 @@ class RegisterView(FormView):
 
 
 
-class HomeView(View):
+class HomeView(LoginRequiredMixin, View):
 
     @staticmethod
     def get_meaning(word):
@@ -131,7 +131,8 @@ class HomeView(View):
         request.session['visited_words'] = visited_words 
         ending_letter_comp = computer_word[-1]
         return render(request, 'home.html', {'score': score, 'comp_word_meaning': comp_word_meaning, 'ending_letter':ending_letter_comp, 'computer_word':computer_word,'message':message, 'all_comp_words':all_comp_words})
-class GameOverView(View):
+
+class GameOverView(LoginRequiredMixin, View):
     template_name = 'game_over.html'
 
     def get(self, request):

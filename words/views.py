@@ -12,14 +12,14 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
 from django.views.generic import TemplateView, FormView
 
-
+# Login View
 class LoginView(LoginView):
     template_name = 'login.html'
 
 class MyAuthenticatedView(LoginRequiredMixin, TemplateView):
     template_name = 'authenticated_template.html'
 
-
+# Register View
 class RegisterView(FormView):
     form_class = RegisterForm
     template_name = 'registration/register.html'
@@ -34,9 +34,11 @@ class RegisterView(FormView):
         return super().form_invalid(form)
 
 
+# Home View
 
 class HomeView(LoginRequiredMixin, View):
 
+    # Fetch meaning of a word.
     @staticmethod
     def get_meaning(word):
 
@@ -48,6 +50,7 @@ class HomeView(LoginRequiredMixin, View):
             meaning = "Definition not available."
         return meaning
 
+    # Remove trailing spaces.
     def process_word(self, current_word):
         return re.sub(r"\s+", "", current_word)
 
@@ -90,7 +93,7 @@ class HomeView(LoginRequiredMixin, View):
             message = "Invalid word."
             score = 0
              
-
+        
         computer_word = comp_response_up(ending_letter_user)
         comp_word_meaning = self.get_meaning(computer_word)
         ending_letter_comp = computer_word[-1]
@@ -131,6 +134,9 @@ class HomeView(LoginRequiredMixin, View):
         request.session['visited_words'] = visited_words 
         ending_letter_comp = computer_word[-1]
         return render(request, 'home.html', {'score': score, 'comp_word_meaning': comp_word_meaning, 'ending_letter':ending_letter_comp, 'computer_word':computer_word,'message':message, 'all_comp_words':all_comp_words})
+
+
+# View to show when the player runs out of time.
 
 class GameOverView(LoginRequiredMixin, View):
     template_name = 'game_over.html'

@@ -4,7 +4,7 @@ import os
 import json 
 import re
 import requests 
-from .models import Word
+from .models import Bookmark
 from . word_utils import is_valid_word, is_fancy_word, comp_response_up
 from django.urls import reverse_lazy 
 from .forms import RegisterForm
@@ -93,7 +93,7 @@ class HomeView(LoginRequiredMixin, View):
             message = "Invalid word."
             score = 0
              
-        
+
         computer_word = comp_response_up(ending_letter_user)
         comp_word_meaning = self.get_meaning(computer_word)
         ending_letter_comp = computer_word[-1]
@@ -113,6 +113,11 @@ class HomeView(LoginRequiredMixin, View):
         context = {'score': 0, 'ending_letter': "NA", 'computer_word': "NA", 'message': "Enter your first word!", 'all_comp_words': []}
         return render(request, template_name, context)
 
+
+    
+    def bookmark(self, word, user):
+        meaning = self.get_meaning(word)    
+        Bookmark.objects.create(user=user, word=word, meaning=meaning)
 
     def post(self, request, *args, **kwargs):
 
@@ -135,7 +140,7 @@ class HomeView(LoginRequiredMixin, View):
         ending_letter_comp = computer_word[-1]
         return render(request, 'home.html', {'score': score, 'comp_word_meaning': comp_word_meaning, 'ending_letter':ending_letter_comp, 'computer_word':computer_word,'message':message, 'all_comp_words':all_comp_words})
 
-
+    
 # View to show when the player runs out of time.
 
 class GameOverView(LoginRequiredMixin, View):
@@ -144,3 +149,12 @@ class GameOverView(LoginRequiredMixin, View):
     def get(self, request):
         request.session['visited_words'] = []
         return render(request, self.template_name)
+
+
+
+# View to bookmark a word.
+
+# class AddBookmark(LoginRequiredMixin, View):
+#     def post(self, request):
+#         word = request.POST.get('current_word', '')
+#         meaning = get_meaning()

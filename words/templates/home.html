@@ -216,6 +216,9 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+
+        const word = "{{ computer_word }}";
+        const meaning = "{{ comp_word_meaning }}";
         var textBox = document.getElementById('current_word');
         var cursorPosition = textBox.value.length;
         textBox.focus();
@@ -234,6 +237,30 @@
     }
     });
     });
+
+    bookmarkButton.addEventListener("click", async () => {
+      try {
+        const response = await fetch('/api/bookmarks/', {
+          method: 'POST', 
+          headers: {
+            'Content-Type': 'application/json', 
+            'Authorization': "", 
+          }, 
+          body: JSON.stringify({  
+            user: userID, 
+            word: computer_word, 
+            meaning: comp_word_meaning
+          })
+        })
+
+        if (response == 201){
+          console.log("Successful")
+        }
+      }
+      catch (error){
+        console.log("An error occurred: ", error)
+      }
+    })
 
 </script>    
 </body>

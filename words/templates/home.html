@@ -215,19 +215,16 @@
 
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener("DOMContentLoaded", function() {
+      
         // Fetch access token from local storage
         const accessToken = localStorage.getItem('accessToken');
-        const word = "{{ computer_word }}";
-        const meaning = "{{ comp_word_meaning }}";
+        const computer_word = "{{ computer_word }}";
+        const comp_word_meaning = "{{ comp_word_meaning }}";
         var textBox = document.getElementById('current_word');
         var cursorPosition = textBox.value.length;
         textBox.focus();
         textBox.setSelectionRange(cursorPosition, cursorPosition);
-    });
-
-
-    document.addEventListener("DOMContentLoaded", function() {
   const bookmarkButton = document.getElementById("bookmark-button");
 
   bookmarkButton.addEventListener("click", function() {
@@ -237,18 +234,18 @@
       bookmarkButton.classList.add("bookmarked");
     }
     });
-    });
 
+    
     bookmarkButton.addEventListener("click", async () => {
       try {
         const response = await fetch('/api/bookmarks/', {
           method: 'POST', 
           headers: {
             'Content-Type': 'application/json', 
-            'Authorization': "Bearer" + accessToken, 
+            'Authorization': "Bearer " + accessToken, 
           }, 
           body: JSON.stringify({    
-            user: userID, 
+            user: 1, 
             word: computer_word, 
             meaning: comp_word_meaning
           })
@@ -262,6 +259,9 @@
         console.log("An error occurred: ", error)
       }
     })
+
+    });
+
 
 </script>    
 </body>

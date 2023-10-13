@@ -12,5 +12,46 @@
         <button type="submit">Login</button>
     </form>
     <p>Don't have an account? <a href="{% url 'register' %}">Register</a></p>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+  // Get the form element
+  const form = document.querySelector('form');
+  
+  form.addEventListener('submit', function(event) {
+    // Prevent the form from submitting
+    event.preventDefault();
+    
+    // Capture the form data
+    const username = document.querySelector('input[name="username"]').value;
+    const password = document.querySelector('input[name="password"]').value;
+
+    // Make the fetch request
+    fetch('/api/token/', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({username: username, password: password})
+    })
+    .then(response => response.json())
+    .then(data => {
+      const accessToken = data.access;
+      const username = data.username;
+      localStorage.setItem('accessToken', accessToken);
+
+      console.log(`Username: ${username}, Access Token: ${accessToken}`);
+      // Store these as needed
+
+      window.location.href = "/accounts/profile/";
+
+    })
+    .catch(error => {
+        console.log("An error occurred: ", error);
+    })
+  });
+});
+
+</script>
+
+
 </body>
 </html>

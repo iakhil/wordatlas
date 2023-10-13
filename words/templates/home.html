@@ -216,7 +216,8 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-
+        // Fetch access token from local storage
+        const accessToken = localStorage.getItem('accessToken');
         const word = "{{ computer_word }}";
         const meaning = "{{ comp_word_meaning }}";
         var textBox = document.getElementById('current_word');
@@ -244,9 +245,9 @@
           method: 'POST', 
           headers: {
             'Content-Type': 'application/json', 
-            'Authorization': "", 
+            'Authorization': "Bearer" + accessToken, 
           }, 
-          body: JSON.stringify({  
+          body: JSON.stringify({    
             user: userID, 
             word: computer_word, 
             meaning: comp_word_meaning

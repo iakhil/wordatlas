@@ -11,6 +11,16 @@ from .forms import RegisterForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
 from django.views.generic import TemplateView, FormView
+from rest_framework import viewsets
+from .models import Bookmark
+from .serializers import BookmarkSerializer
+from rest_framework.permissions import IsAuthenticated
+from rest_framework_simplejwt.views import TokenObtainPairView
+from .serializers import CustomTokenObtainPairSerializer
+
+class CustomTokenObtainPairView(TokenObtainPairView):
+    serializer_class = CustomTokenObtainPairSerializer
+
 
 # Login View
 class LoginView(LoginView):
@@ -151,6 +161,11 @@ class GameOverView(LoginRequiredMixin, View):
         return render(request, self.template_name)
 
 
+
+class BookmarkViewSet(viewsets.ModelViewSet):
+    queryset = Bookmark.objects.all()
+    serializer_class = BookmarkSerializer
+    permission_classes = [IsAuthenticated]
 
 # View to bookmark a word.
 

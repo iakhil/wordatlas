@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Bookmarks</h1>
+    <button id="view-bookmarks-button">See all bookmarked words</button>
+</body>
+
+
+
+
+
+<script>
+
+const viewBookmarksButton = document.getElementById("view-bookmarks-button")
+const accessToken = localStorage.getItem('accessToken');
+    viewBookmarksButton.addEventListener("click", async () => {
+      try {
+        const response = await fetch('/api/bookmarks/', {
+          method: 'GET',
+          headers: {
+            
+            'Content-Type': 'application/json', 
+            'Authorization': "Bearer " + accessToken, 
+          }
+        });
+
+        if (!response.ok) {
+          throw new Error("Network response was not ok.")
+        }
+
+        const data = await response.json()
+
+        let bookmarksContainer = document.getElementById('bookmarks-container');
+        if (!bookmarksContainer) {
+          bookmarksContainer = document.createElement('div')
+          bookmarksContainer.id = 'bookmarks-container';
+          document.body.appendChild(bookmarksContainer)
+        }
+
+        bookmarksContainer.innerHTML = '';
+
+        data.forEach(bookmark => {
+          const bookmark_div = document.createElement('div')
+          bookmark_div.style.display = 'flex'
+          bookmark_div.style.justifyContent = 'space-between'
+          bookmark_div.style.alignItems = 'center';
+
+          const word = document.createElement('span')
+          word.textContent = bookmark.word;
+          word.style.fontWeight = 'bold'
+
+          const meaning = document.createElement('span')
+          meaning.textContent = bookmark.meaning;
+
+          bookmark_div.appendChild(word)
+          bookmark_div.appendChild(meaning)
+          bookmarksContainer.appendChild(bookmark_div);
+        })
+    
+      }
+      catch (error) {
+        console.log("An error occurred: ", error)
+      }
+    })
+
+</script>
+
+
+
+</html>

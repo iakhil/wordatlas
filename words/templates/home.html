@@ -181,6 +181,8 @@
 <button id="bookmark-button" class="bookmark-button">
     <i class="fas fa-bookmark"></i> Bookmark
   </button>
+
+  <button  id="view-bookmarks-button" onclick="window.location.href='http://127.0.0.1:8000/view-bookmarks'">View bookmarks </a>  </button>
   
 
 
@@ -226,7 +228,7 @@
         textBox.focus();
         textBox.setSelectionRange(cursorPosition, cursorPosition);
   const bookmarkButton = document.getElementById("bookmark-button");
-
+  const viewBookmarksButton = document.getElementById("view-bookmarks-button")
   bookmarkButton.addEventListener("click", function() {
     if (bookmarkButton.classList.contains("bookmarked")) {
       bookmarkButton.classList.remove("bookmarked");
@@ -235,7 +237,6 @@
     }
     });
 
-    
     bookmarkButton.addEventListener("click", async () => {
       try {
         const response = await fetch('/api/bookmarks/', {

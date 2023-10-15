@@ -175,12 +175,21 @@ class GameOverView(LoginRequiredMixin, View):
         request.session['visited_words'] = []
         return render(request, self.template_name)
 
+class ShowBookmarksView(LoginRequiredMixin, View):
+    template_name = 'bookmarks.html'
 
+    def get(self, request):
+        return render(request, self.template_name)
 
 class BookmarkViewSet(viewsets.ModelViewSet):
     queryset = Bookmark.objects.all()
     serializer_class = BookmarkSerializer
     permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+
+        queryset = Bookmark.objects.all()
+        return Bookmark.objects.filter(user=1)
 
 # View to bookmark a word.
 

@@ -12,3 +12,8 @@ class Bookmark(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     word = models.CharField(max_length=200)
     meaning = models.TextField()
+
+
+class WordAtlasUser(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    high_score = models.IntegerField(default=0)

@@ -6,10 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Word Atlas</title>
 </head>
-<body style="background-color: rgb(72, 98, 218);">
-    <h1 style="margin-left: 50%;">Game Over</h1>
-
-    <input type="button" value="Play Again" onclick="window.location.href='http://127.0.0.1:8000/accounts/profile'" style="margin-left: 50%;"> </input>
-
-</body>
+<div class="container">
+    <h1 class="text-danger" style="align-content: center">Game Over</h1>
+    <div class="container">
+        <h2 class="text-center"> Your current score is {{ score }}</h2>
+        <h2 class="text-center"> Your maximum score in this game was {{ max_score_in_game }}</h2>
+        <h2 class="text-center"> Your high score is {{ high_score }}</h2>
+        <a href="{% url 'home' %}">Play again ?</a>
+    </div>
+</div>
 </html>

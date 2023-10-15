@@ -1,3 +1,6 @@
+from typing import Any
+from django import http
+from django.http.response import HttpResponse
 from django.shortcuts import render
 from django.views import View
 import os 
@@ -15,6 +18,13 @@ from rest_framework import viewsets
 from .models import Bookmark
 from .serializers import BookmarkSerializer
 from rest_framework.permissions import IsAuthenticated
+from django.contrib.auth import authenticate, login
+from rest_framework_simplejwt.views import TokenObtainPairView
+from .serializers import CustomTokenObtainPairSerializer
+
+class CustomTokenObtainPairView(TokenObtainPairView):
+    serializer_class = CustomTokenObtainPairSerializer
+
 
 # Login View
 class LoginView(LoginView):
@@ -42,6 +52,13 @@ class RegisterView(FormView):
 
 class HomeView(LoginRequiredMixin, View):
 
+    def dispatch(self, request, *args, **kwargs):
+        user = authenticate(request, username="human456", password="maroon@987")
+        login(request, user)
+        print("User: ", request.user)
+        print("Session status: ", request.session.session_key)
+        print("Authentication status:", request.user.is_authenticated)
+        return super().dispatch(request, *args, **kwargs)
     # Fetch meaning of a word.
     @staticmethod
     def get_meaning(word):
@@ -109,6 +126,10 @@ class HomeView(LoginRequiredMixin, View):
         
 
     def get(self, request, *args, **kwargs):
+       # user = authenticate(request, username="human456", password="maroon@987")
+        #login(request, user)
+        print("Inside get.")
+        print("Authenticated!!!!")
         template_name = 'home.html'
         if 'score' not in request.session:
             self.request.session.setdefault('score', 0)
@@ -124,9 +145,9 @@ class HomeView(LoginRequiredMixin, View):
         Bookmark.objects.create(user=user, word=word, meaning=meaning)
 
     def post(self, request, *args, **kwargs):
-
+        user = authenticate(request, username="human456", password="maroon@987")
+        login(request, user)
         print("Entered post.")
-        
         current_word = request.POST.get('current_word', '')
         current_word = self.process_word(current_word)
         score = request.session.get('score', 0)

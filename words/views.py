@@ -21,6 +21,9 @@ from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth import authenticate, login
 from rest_framework_simplejwt.views import TokenObtainPairView
 from .serializers import CustomTokenObtainPairSerializer
+import redis
+
+client = redis.StrictRedis(host='localhost', port=6379, db=0)
 
 class CustomTokenObtainPairView(TokenObtainPairView):
     serializer_class = CustomTokenObtainPairSerializer
@@ -63,12 +66,18 @@ class HomeView(LoginRequiredMixin, View):
     @staticmethod
     def get_meaning(word):
 
+        # Check if meaning is cached
+        if client.exists(word):
+            return client.get(word)
+            print("Serving from Redis.")
         req = 'https://api.dictionaryapi.dev/api/v2/entries/en/' + word
         data = json.loads(requests.get(req).text)
         if len(data) == 1:
             meaning = data[0]['meanings'][0]['definitions'][0]['definition']
         else:
             meaning = "Definition not available."
+        client.set(word, meaning)
+        print("Not serving from Redis.")
         return meaning
 
     # Remove trailing spaces.

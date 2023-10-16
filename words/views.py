@@ -68,8 +68,8 @@ class HomeView(LoginRequiredMixin, View):
 
         # Check if meaning is cached
         if client.exists(word):
-            return client.get(word)
             print("Serving from Redis.")
+            return client.get(word)
         req = 'https://api.dictionaryapi.dev/api/v2/entries/en/' + word
         data = json.loads(requests.get(req).text)
         if len(data) == 1:

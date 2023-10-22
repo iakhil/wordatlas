@@ -23,7 +23,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from .serializers import CustomTokenObtainPairSerializer
 import redis
 
-client = redis.StrictRedis(host='localhost', port=6379, db=0)
+# client = redis.StrictRedis(host='localhost', port=6379, db=0)
 
 class CustomTokenObtainPairView(TokenObtainPairView):
     serializer_class = CustomTokenObtainPairSerializer
@@ -66,17 +66,17 @@ class HomeView(LoginRequiredMixin, View):
     @staticmethod
     def get_meaning(word):
 
-        # Check if meaning is cached
-        if client.exists(word):
-            print("Serving from Redis.")
-            return client.get(word)
+        # # Check if meaning is cached
+        # if client.exists(word):
+        #     print("Serving from Redis.")
+        #     return client.get(word)
         req = 'https://api.dictionaryapi.dev/api/v2/entries/en/' + word
         data = json.loads(requests.get(req).text)
         if len(data) == 1:
             meaning = data[0]['meanings'][0]['definitions'][0]['definition']
         else:
             meaning = "Definition not available."
-        client.set(word, meaning)
+        # client.set(word, meaning)
         print("Not serving from Redis.")
         return meaning
 
@@ -95,6 +95,7 @@ class HomeView(LoginRequiredMixin, View):
         if is_valid_word(current_word):
             if all_comp_words:
                 ending_letter_comp = all_comp_words[-1][-1]
+            
             else:
                 ending_letter_comp = "NA"
             if current_word[0] != ending_letter_comp and visited_words:
@@ -142,6 +143,7 @@ class HomeView(LoginRequiredMixin, View):
         template_name = 'home.html'
         if 'score' not in request.session:
             self.request.session.setdefault('score', 0)
+            score = 0
             self.request.session.setdefault('visited_words', [])
             self.request.session.setdefault('all_comp_words', [])
         context = {'score': 0, 'ending_letter': "NA", 'computer_word': "NA", 'message': "Enter your first word!", 'all_comp_words': []}
@@ -182,6 +184,7 @@ class GameOverView(LoginRequiredMixin, View):
 
     def get(self, request):
         request.session['visited_words'] = []
+        request.session['score'] = 0
         return render(request, self.template_name)
 
 class ShowBookmarksView(LoginRequiredMixin, View):

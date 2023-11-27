@@ -8,7 +8,8 @@ router = DefaultRouter()
 router.register(r'bookmarks', BookmarkViewSet)
 
 urlpatterns = [
-    path('', LoginView.as_view(), name='login'),
+    path('accounts/login/', LoginView.as_view(), name='login'),
+    path('', HomeView.as_view(), name='home'),
     path('api/', include(router.urls)),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair_view'),
     path('api/token/refresh', TokenRefreshView.as_view(), name='token_refresh_view'),

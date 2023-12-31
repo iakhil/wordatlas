@@ -6,7 +6,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 router = DefaultRouter()
 router.register(r'bookmarks', BookmarkViewSet)
-
+#AIwinter@99
 urlpatterns = [
     path('accounts/login/', LoginView.as_view(), name='login'),
     path('', HomeView.as_view(), name='home'),

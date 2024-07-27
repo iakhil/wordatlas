@@ -3,267 +3,133 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Word Atlas</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
 </head>
-
-<body class="bg-blue-500 bg-opacity-50">
-    
-<h1 style="text-align: center" class="text-4xl font-bold text-gray-800 mb-8">Welcome to Fancy Word Atlas</h1>
-{% if current_word %}
-    <p>Current word: {{ current_word }}</p>
-{% endif %}
-
-<style>
-
-    .hoverable {
-        border: 1px solid black;
-    }
-    .hoverable-text {
-        display: none;
-    }
-
-    .hoverable:hover .reveal-text {
-        opacity: 0;
-     
-    }
-
-
-    .hoverable:hover .hoverable-text {
-        display: block;
-    }
-
-    @media screen and (min-width: 600px) {
-    .score {
-        font-size: 40px;
-        position: absolute;
-        top: 100px;
-        left: 200px;
-    }
-}
-
-    #current_word {
-        height: 40px;
-        width: 260px;
-        font-size: 30px;
-        position: absolute;
-        top: 55%;
-        left: 50%;
-        transform: translate(-50%, 50%);
-    }
-
-    
-@media screen and (min-width: 600px) {
-    .message {
-        font-size: 24px;
-        position: absolute;
-        top: 70%;
-        left: 50%;
-        transform: translate(-50%, 50%);
-    }
-}
-    .ending-letter {
-        font-size: 30px;
-        position: absolute;
-        top: 40%;
-        left: 50%;
-        transform: translate(-50%, 50%);
-    }
-
-    .computer-word {
-        font-size: 30px;
-        position: absolute;
-        top: 30%;
-        left: 50%;
-        transform: translate(-50%, 50%);
-    }
-
-    /* Style the dropdown button */
-.dropbtn {
-  position: absolute;
-  top: 10%;
-  left: 90%;
-  padding: 16px;
-  font-size: 26px;
-  border: none;
-  cursor: pointer;
-}
-
-/* Style the dropdown content (hidden by default) */
-
-@media screen and (min-width: 600px) {
-.dropdown-content {
-    font-size: 20px;
-  display: none;
-  position: absolute;
-  top: 18%;
-  left: 80%;
-  background-color: #f1f1f1;
-  min-width: 160px;
-  z-index: 1;
-}
-}
-
-/* Style the links inside the dropdown */
-.dropdown-content a {
-  color: black;
-  padding: 12px 16px;
-  text-decoration: none;
-  display: block;
-}
-
-/* Change color of dropdown links on hover */
-.dropdown-content a:hover {
-  background-color: #ddd;
-}
-
-/* Show the dropdown menu on hover */
-.dropdown:hover .dropdown-content {
-  display: block;
-}
-
-
-.bookmark-button {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  cursor: pointer;
-  font-size: 16px;
-  border-radius: 5px;
-}
-
-.bookmark-button {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  cursor: pointer;
-  font-size: 16px;
-  border-radius: 5px;
-}
-
-.bookmark-button.bookmarked {
-  background-color: #e44d26;
-}
-
-</style>
-
-
-<div class="flex justify-center" id="parent-div">
-<form method="post">
-    {% csrf_token %}
-
-    <br>
-    
-    <p class="computer-word"><b>Computer Word:</b>  {{computer_word}}</p>
-    <br>
-    <input  type="text" id="current_word" name="current_word" value="{{ current_word }}">
-    <br> <br>
-    <div class="hoverable">
-        <span class="flex justify-center items-center reveal-text" id="know-meaning">Know meaning</span>
-        <span class="hoverable-text">{{comp_word_meaning}}</span>
-    </div>
-    <br> <br>
-    <p class="ending-letter"><b>Enter a word that starts with the letter:</b> {{ending_letter}} </p>
-    <br> <br> 
-    <br><br>
-    <!-- <p>All computer words: {{all_comp_words}}</p>
-    <!-- <input type="hidden" name="current_player" value="{{ current_player }}"> -->
-</form>
-
-</div>
-<p class="message"><b>Your entered word was:</b>  {{message}} </p>
-<p class="score"><b>Score </b> <br> {{score}} </p>
-<p>Your maximum score in the game was {{ max_score }}</p>
-<button id="bookmark-button" class="bookmark-button">
-    <i class="fas fa-bookmark"></i> Bookmark
-  </button>
-  
-
-
-<p><b>Timer</b></p>
-<span id="timer">30</span> seconds left. 
-<script>
-    let timeLeft = 30;
-    const timerElement = document.getElementById("timer");
-    const timerInterval = setInterval(() => {
-        timerElement.textContent = timeLeft;
-        timeLeft -= 1;
-
-        if (timeLeft < 0) {
-            clearInterval(timerInterval);
-            window.location.href = "game_over";
-        }
+<body class="bg-gradient-to-r from-blue-400 to-indigo-600 min-h-screen font-sans">
+    <div class="container mx-auto px-4 py-8">
+        <h1 class="text-4xl font-bold text-white text-center mb-8 shadow-text">Fancy Word Atlas</h1>
+        
+        <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
+            <div class="flex flex-col md:flex-row justify-between items-center mb-6">
+                <div class="w-full md:w-1/2 mb-4 md:mb-0">
+                    <h2 class="text-2xl font-semibold text-gray-800 mb-2">Computer Word</h2>
+                    <p class="text-3xl font-bold text-indigo-600">{{ computer_word }}</p>
+                </div>
+                <div class="w-full md:w-1/2">
+                    <h2 class="text-2xl font-semibold text-gray-800 mb-2">Your Word</h2>
+                    <form method="post" class="flex items-center">
+                        {% csrf_token %}
+                        <input type="text" id="current_word" name="current_word" value="{{ current_word }}" class="w-full text-2xl border-2 border-gray-300 rounded-lg p-2 focus:outline-none focus:border-indigo-500">
+                        <button type="submit" class="ml-2 bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition duration-300">Submit</button>
+                    </form>
+                </div>
+            </div>
             
-    }, 1000)
-</script>
-
-<div class="dropdown">
-    <button class="dropbtn">Rules</button>
-    <div class="dropdown-content">
-        <ul>
-        <li>A word is said to be 'fancy' if it is not in the list of the most common 10,000 words used in the English language.</li>
-        <li>Computer would generate a fancy word.</li>
-        <li>You have to come up with a fancy word that starts with the last letter of the computer word.</li>
-                
-        </ul>
+            <div class="mb-6">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-2">Word Meaning</h2>
+                <div class="bg-gray-100 p-4 rounded-lg">
+                    <p id="word-meaning" class="text-gray-700">{{ comp_word_meaning }}</p>
+                </div>
+            </div>
+            
+            <div class="flex justify-between items-center">
+                <div>
+                    <h2 class="text-2xl font-semibold text-gray-800 mb-2">Next Letter</h2>
+                    <p class="text-3xl font-bold text-indigo-600">{{ ending_letter }}</p>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-semibold text-gray-800 mb-2">Score</h2>
+                    <p class="text-3xl font-bold text-indigo-600">{{ score }}</p>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-semibold text-gray-800 mb-2">Time Left</h2>
+                    <p id="timer" class="text-3xl font-bold text-indigo-600">30</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="flex justify-between items-center mb-8">
+            <button id="bookmark-button" class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded-full transition duration-300 flex items-center">
+                <i class="fas fa-bookmark mr-2"></i> Bookmark
+            </button>
+            <div class="relative">
+                <button id="rules-button" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-full transition duration-300">
+                    Rules
+                </button>
+                <div id="rules-dropdown" class="hidden absolute right-0 mt-2 w-64 bg-white rounded-lg shadow-lg p-4">
+                    <ul class="list-disc pl-5 text-gray-700">
+                        <li>A word is 'fancy' if it's not in the 10,000 most common English words.</li>
+                        <li>Computer generates a fancy word.</li>
+                        <li>You must provide a fancy word starting with the last letter of the computer's word.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        {% if message %}
+        <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-8" role="alert">
+            <p class="font-bold">Your entered word was:</p>
+            <p>{{ message }}</p>
+        </div>
+        {% endif %}
+        
+        <p class="text-white text-center">Your maximum score in the game was {{ max_score }}</p>
     </div>
-  </div>
 
-
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-      
-        // Fetch access token from local storage
-        const accessToken = localStorage.getItem('accessToken');
-        const computer_word = "{{ computer_word }}";
-        const comp_word_meaning = "{{ comp_word_meaning }}";
-        var textBox = document.getElementById('current_word');
-        var cursorPosition = textBox.value.length;
-        textBox.focus();
-        textBox.setSelectionRange(cursorPosition, cursorPosition);
-  const bookmarkButton = document.getElementById("bookmark-button");
-
-  bookmarkButton.addEventListener("click", function() {
-    if (bookmarkButton.classList.contains("bookmarked")) {
-      bookmarkButton.classList.remove("bookmarked");
-    } else {
-      bookmarkButton.classList.add("bookmarked");
-    }
-    });
-
-    
-    bookmarkButton.addEventListener("click", async () => {
-      try {
-        const response = await fetch('/api/bookmarks/', {
-          method: 'POST', 
-          headers: {
-            'Content-Type': 'application/json', 
-            'Authorization': "Bearer " + accessToken, 
-          }, 
-          body: JSON.stringify({    
-            user: 1, 
-            word: computer_word, 
-            meaning: comp_word_meaning
-          })
-        })
-
-        if (response == 201){
-          console.log("Successful")
-        }
-      }
-      catch (error){
-        console.log("An error occurred: ", error)
-      }
-    })
-
-    });
-
-
-</script>    
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const accessToken = localStorage.getItem('accessToken');
+            const computerWord = "{{ computer_word }}";
+            const compWordMeaning = "{{ comp_word_meaning }}";
+            
+            const currentWordInput = document.getElementById('current_word');
+            currentWordInput.focus();
+            currentWordInput.setSelectionRange(currentWordInput.value.length, currentWordInput.value.length);
+            
+            const bookmarkButton = document.getElementById("bookmark-button");
+            bookmarkButton.addEventListener("click", async function() {
+                this.classList.toggle("bg-yellow-600");
+                try {
+                    const response = await fetch('/api/bookmarks/', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': "Bearer " + accessToken,
+                        },
+                        body: JSON.stringify({
+                            user: 1,
+                            word: computerWord,
+                            meaning: compWordMeaning
+                        })
+                    });
+                    if (response.status === 201) {
+                        console.log("Bookmark added successfully");
+                    }
+                } catch (error) {
+                    console.error("An error occurred:", error);
+                }
+            });
+            
+            const rulesButton = document.getElementById("rules-button");
+            const rulesDropdown = document.getElementById("rules-dropdown");
+            rulesButton.addEventListener("click", function() {
+                rulesDropdown.classList.toggle("hidden");
+            });
+            
+            let timeLeft = 30;
+            const timerElement = document.getElementById("timer");
+            const timerInterval = setInterval(() => {
+                timerElement.textContent = timeLeft;
+                timeLeft -= 1;
+                if (timeLeft < 0) {
+                    clearInterval(timerInterval);
+                    window.location.href = "game_over";
+                }
+            }, 1000);
+        });
+    </script>
 </body>
 </html>

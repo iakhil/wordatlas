@@ -17,4 +17,5 @@ urlpatterns = [
     path('register/', RegisterView.as_view(), name='register'),
     path('accounts/profile/', HomeView.as_view(), name='home'), 
     path('accounts/profile/game_over/', GameOverView.as_view(), name='game_over'), 
+    path('game_over/', GameOverView.as_view(), name='game_over'),
 ]
